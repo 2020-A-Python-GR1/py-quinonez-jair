@@ -1,0 +1,18 @@
+1 RECETA contiene un arreglo de INGREDIENTES
+
+
+Crear la RECETA: 
+	Nombre 
+	Numero de ingredientes
+	Tiempo de preparacion 
+	Numero de comensales(promeio)
+	Inventor
+	INGREDIENTE []Vienen de la otra entidad.
+Ingrediente
+Nombre este nombre va en RECETA []
+Tipos
+Cantidad
+Color 
+Coccion 
+
+for cada 5 lineas esta el nombre: Tomar de ahi
