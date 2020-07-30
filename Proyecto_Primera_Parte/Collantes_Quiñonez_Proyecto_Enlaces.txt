@@ -1,0 +1,4 @@
+Prototipo en Figma
+https://www.figma.com/file/E8KImr6xDeLGKulpkTX2YA/Proyecto_python
+Azure
+https://dev.azure.com/jairquinonez/PythonProyecto/_workitems/recentlyupdated/
