@@ -7,11 +7,10 @@ Created on Sat Jul 25 10:07:33 2020
 import pandas as pd
 import os 
 
-path = "./data/artwork_data.csv"
+path = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data.csv"
 
 df1 = pd.read_csv(
-    path,
-    nrows = 10)
+    path)
 
 #Definir columnas que nostros queremos utilizar
 
@@ -21,14 +20,13 @@ columnas = ['id','artist','title',
             ]
 
 df2 = pd.read_csv(path,
-                  nrows=10,
+                  
                   usecols=columnas)
 df3 = pd.read_csv(path,
-                  nrows=10,
                   usecols=columnas,
                   index_col='id')
 
-path_guardado = "./data/artwork_data.pickle"
+path_guardado = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data.pickle"
 #debe ser .pickle
 df3.to_pickle(path_guardado)
 #leer el pickle 

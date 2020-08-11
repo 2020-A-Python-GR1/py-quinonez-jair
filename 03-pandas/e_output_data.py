@@ -8,11 +8,12 @@ import pandas as pd
 import numpy as np
 import os
 import sqlite3 
+import xlsxwriter
 
 #path_guardado = "./data/artworkdata.pickle"
-path_guardado = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artworkdata.pickle"
+path_guardado = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data.pickle"
 df = pd.read_pickle(path_guardado)
-sub_df = df.copy()
+sub_df = df.iloc[49980:50519,:].copy()
 
 #artwork_data.xlsx
 path_excel = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data_excel.xlsx"
@@ -22,7 +23,7 @@ path_xlsx = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwor
 columnas = ['artist','title','year']
 sub_df.to_excel(path_excel)
 sub_df.to_excel(path_excel_indice, index = False)
-sub_df.to_excel(path_excel_columnas)
+sub_df.to_excel(path_excel_columnas, columns=columnas)
 
 #Multiples hojas de trabjo 
 path_excel_mt = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data_excel_mt.xlsx"
@@ -35,6 +36,7 @@ writer.save()
 #Formato condicional 
 
 num_artist = sub_df['artist'].value_counts()
+print(num_artist)
 path_excel_colores = "E://EPN//Python//ReposPY//py-quinonez-jair//03-pandas//data//artwork_data_excel_colores.xlsx"
 writer = pd.ExcelWriter(path_excel_colores, engine = 'xlsxwriter')
 #Series
@@ -44,8 +46,8 @@ num_artist.to_excel(writer,
 hojas_artistas = writer.sheets['Artistas']
 ultimo_numero = len(num_artist.index) + 1
 #rango de celdas
-rango_celdas = f'B2:B{ultimo_numero}'
-
+#rango_celdas = f'B2:B{ultimo_numero}'
+rango_celdas = 'B2:B{}'.format(len(num_artist.index)+1)
 #formato
 
 formato_artista = {
@@ -56,14 +58,20 @@ formato_artista = {
     "max_type":"percentible"
     }
 hojas_artistas.conditional_format(rango_celdas,formato_artista)
+
+
 writer.save()
 
 
+
+
+
+
 #SQLITE
-with sqlite3.connect("bdd_artist.bdd") as conexion:
-    sub_df.to_sql('py_artistas', conexion)
+#with sqlite3.connect("bdd_artist.bdd") as conexion:
+    #sub_df.to_sql('py_artistas', conexion)
 
 #JSON
-sub_df.to_json('artista.json')
-sub_df.to_json('artista_tabla.json', orient='table')
+#sub_df.to_json('artista.json')
+#sub_df.to_json('artista_tabla.json', orient='table')
     
