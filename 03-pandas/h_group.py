@@ -40,8 +40,11 @@ def llenar_valores_vacios(series,tipo):
             promedio = suma / numero_valores
             series_valores_llenos = series.fillna(promedio)
             return series_valores_llenos
+        ##TAREA 4
         if(tipo == 'mas_repetido'):
-            pass
+            repetidos = series.value_counts().iloc[0]
+            series_valores_llenos = series.fillna(repetidos)
+            return series_valores_llenos
            
 def tranformar_df(df):
     df_artist = df.groupby('artist')
