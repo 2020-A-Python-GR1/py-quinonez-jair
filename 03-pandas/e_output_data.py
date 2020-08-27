@@ -59,14 +59,7 @@ formato_artista = {
     }
 hojas_artistas.conditional_format(rango_celdas,formato_artista)
 
-
 writer.save()
-
-
-
-
-
-
 #SQLITE
 #with sqlite3.connect("bdd_artist.bdd") as conexion:
     #sub_df.to_sql('py_artistas', conexion)
