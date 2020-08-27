@@ -34,11 +34,8 @@ segundo = df.loc[3:5] #filtrdo desde x indice hatsta y indice (3)
 segundo = df.loc[df.index == 1035] #Filtrar por arreglo Arreglo true and false(4)
 
 segundo = df.loc[1035, ['artist','medium']] #varios indices
-
-
 #print(df.loc[0]) Indice dentro del Dataframe
 #print(df[0])Incie dentro del DataFrame
-
 
 #ILOC - Acceder a grupo fila y columnas x INDICEs basados en 0 
 tercero = df.iloc[0]
@@ -47,7 +44,6 @@ tercero = df.iloc[0:10]
 tercero = df.iloc[df.index == 1035]
 #filtrado de indices por rango de indices 0:4
 tercero = df.iloc[0:10, 0:4]
-
 ########################
 datos = {
     "nota 1":{
@@ -67,19 +63,14 @@ datos = {
         },
     }
 notas = pd.DataFrame(datos)
-
 condicion_nota = notas["nota 1"] > 7
 condicion_nota2 = notas["nota 2"] > 7
 condicion_disciplina = notas["disciplina"] > 7
-
 mayores_siete = notas.loc[condicion_nota, ["nota 1"]]
-
 pasaron = notas.loc[condicion_nota][condicion_nota2][condicion_disciplina]
 notas.loc["Maria", "disciplina"] = 7
 #Cambiar a todos 
 notas.loc[:,"disciplina"] = 7
-
 ##Promedio de las 3 notas#################
-
 notas["promedio"]= notas.mean([1][0])
 
