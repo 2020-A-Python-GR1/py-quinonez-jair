@@ -10,7 +10,7 @@ from scrapy.loader.processors import TakeFirst
 
 ##src="../../images/thumbnail/294930.jpg"
 ##https://www.fybeca.com/images/thumbnail/294930.jpg
-def tranformar_url_imagen(texto):
+def transformar_url_imagen(texto):
     url_fybeca = 'https://www.fybeca.com'
     cadena_texto = '../..'
     return texto.replace(cadena_texto,url_fybeca)
@@ -20,9 +20,9 @@ class ProductoFybeca(scrapy.Item):
     imagen = scrapy.Field(
         input_processor = MapCompose(
             #lista de funciones
-            tranformar_url_imagen
+            transformar_url_imagen
         ),
-        outpu_processor = TakeFirst() #obtenemos una lista[]
+        output_processor = TakeFirst() #obtenemos una lista[]
         #Sacamos el primero de la lista
         
     )

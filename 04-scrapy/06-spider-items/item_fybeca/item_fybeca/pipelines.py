@@ -6,6 +6,22 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
+from scrapy.exceptions import DropItem
+
+class SolocapsulasPipeline(object):
+    def process_item(self,item, spider):
+        titulo = item['titulo']
+        if('capsula' not in titulo):
+            raise DropItem('No tine capsula')
+        else:
+            return item
+
+class TransformarTiuloAMinusculas(object):
+    def process_item(self, item, spider):
+        titulo = item['titulo']
+        item['titulo'] = titulo.lower()
+        return item
+
 
 
 class ItemFybecaPipeline:
