@@ -7,7 +7,7 @@ class SerieSpider(CrawlSpider):
     start_urls = [
         'https://danimados.com/'
     ]
-    for i  in range(1,27): #27 páginas
+    for i  in range(1,27):
         start_urls.append('https://danimados.com/genero/animacion/page/{i}/'.format(i=i))
     segmentos_url_permitidos = (
         'series'
@@ -39,18 +39,19 @@ class SerieSpider(CrawlSpider):
     start_date = []
     genre = []
     end_date = []
-    #imdb_votes = []
-    #tmdb_rating = []
-    #tmdb_votes = []
+    rating_votes = []
+    rating = []
+
     def parse(self,response):
         info = response.css('div.sbox > div.custom_fields > span.valor::text').extract()
+        name = response.css('div.content > div.sheader > div.data > h1::text').extract()
         main_info = response.css('div.content > div.sheader > div.data > div.extra')
-        name_serie = info[0]#.split('>')[1].split('<')[0]
+        name_serie = name[0]
         if('&amp;' in name_serie):
             name_serie = name_serie.replace('&amp;','&')
         self.name_serie.append(name_serie)
         if(len(info)<=6):
-            runtime = info[5]#.split('>')[6].split('<')[5]
+            runtime = info[5]
             self.runtime.append(runtime)
         else:
             self.runtime.append("")
@@ -60,42 +61,6 @@ class SerieSpider(CrawlSpider):
             self.end_date.append(end_date)
         else:
             self.end_date.append("")
-        # if(len(info)==6):
-        #     imdb_rating = info[1].split('<strong>')[1].split('</strong>')[0]
-        #     self.imdb_rating.append(imdb_rating)
-        #     imdb_votes = info[1].split('</strong>')[1].split('votos')[0].strip()
-        #     self.imdb_votes.append(imdb_votes)
-        #     tmdb_rating = info[2].split('<strong>')[1].split('</strong>')[0]
-        #     self.tmdb_rating.append(tmdb_rating)
-        #     tmdb_votes = info[2].split('</strong>')[1].split('votos')[0].strip()
-        #     if('</span>' in tmdb_votes):
-        #         self.tmdb_votes.append("")
-        #     else:
-        #         self.tmdb_votes.append(tmdb_votes)
-        # elif(len(info)==2):
-        #     if("repimdb" in info[1]):
-        #         imdb_rating = info[1].split('<strong>')[1].split('</strong>')[0]
-        #         self.imdb_rating.append(imdb_rating)
-        #         imdb_votes = info[1].split('</strong>')[1].split('votos')[0].strip()
-        #         self.imdb_votes.append(imdb_votes)
-        #         self.tmdb_rating.append("")
-        #         self.tmdb_votes.append("") 
-        #     else:
-        #         tmdb_rating = info[1].split('<strong>')[1].split('</strong>')[0]
-        #         self.tmdb_rating.append(tmdb_rating)
-        #         tmdb_votes = info[1].split('</strong>')[1].split('votos')[0].strip()
-        #         if('</span>' in tmdb_votes):
-        #             self.tmdb_votes.append("")
-        #         else:
-        #             self.tmdb_votes.append(tmdb_votes)
-        #         self.imdb_rating.append("")
-        #         self.imdb_votes.append("")
-        # else:
-        #     self.tmdb_rating.append("")
-        #     self.tmdb_votes.append("")
-        #     self.imdb_rating.append("")
-        #     self.imdb_votes.append("")
-
         if(main_info.css('span.date::text').extract()):
             release_date = main_info.css('span.date::text').extract()[0]
             self.release_date.append(release_date)
@@ -106,21 +71,30 @@ class SerieSpider(CrawlSpider):
             self.channel.append(channel)
         else:
             self.channel.append("")
-        #if(main_info.css('span.runtime::text').extract()):
-        #    runtime = main_info.css('span.runtime::text').extract()[0]
-        #    self.runtime.append(runtime)
-        #else:
-        #   self.runtime.append("")
-        # if(main_info.css('span.rated::text').extract()):
-        #     rating = main_info.css('span.rated::text').extract()[0]
-        #     self.rating.append(rating)
-        # else:
-        #     self.rating.append("")
+        if(response.css('div.starstruck-rating > span.dt_rating_vgs::text').extract()):
+            rating = response.css('div.starstruck-rating > span.dt_rating_vgs::text').extract()[0]
+            self.rating.append(rating)
+        else:
+            self.rating.append("")
+        if(response.css('div.starstruck-rating > span.rating-count::text').extract()):
+            rating_votes = response.css('div.starstruck-rating > span.rating-count::text').extract()[0]
+            self.rating_votes.append(rating_votes)
+        else:
+            self.rating_votes.append(rating_votes)
         if(response.css('div.sgeneros > a::text').extract()):
             genre = response.css('div.sgeneros > a::text').extract()[0]
-            self.genre.append(genre)
+            #genre2 = genre.replace()
+            #self.genre.append(genre)
+            if('ó' in genre):
+                genre= genre.replace('ó','o')
+                self.genre.append(genre)
+            else:
+                self.genre.append(genre)
         else:
             self.genre.append("")
+        
+
+        
 
     def closed( self, reason ):
         save_path = '../series.csv'
@@ -132,10 +106,8 @@ class SerieSpider(CrawlSpider):
                 'runtime': pd.Series(self.runtime),
                 'end_date': pd.Series(self.end_date),
                 'genre': pd.Series(self.genre),
-                #'imdb_rating': pd.Series(self.imdb_rating),
-                #'imdb_votes': pd.Series(self.imdb_votes),
-                #'tmdb_rating': pd.Series(self.tmdb_rating),
-                #'tmdb_votes': pd.Series(self.tmdb_votes)
+                'rating': pd.Series(self.rating),
+                'votes': pd.Series(self.rating_votes)
             }
         )
         df.to_csv(save_path,index=False)
