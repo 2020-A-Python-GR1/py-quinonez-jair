@@ -12,8 +12,8 @@ BROWN = (106, 55, 5)
 CYAN = (0, 255, 255)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 640  # 16 * 48 or 32 * 24 or 64 * 12
+WIDTH = 1280   # 16 * 64 or 32 * 32 or 64 * 16
+HEIGHT = 702  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Tilemap Demo"
 BGCOLOR = BROWN
@@ -75,6 +75,10 @@ DETECT_RADIUS = 400
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png', 'whitePuff18.png']
 SPLAT = 'splat green.png'
 FLASH_DURATION = 50
+DAMAGE_ALPHA = [ i for i in range(0, 255, 35) ]
+NIGHT_COLOR = (20, 20, 20)
+LIGHT_RADIOUS = (500, 500)
+LIGHT_MASK = "light_350_soft.png"
 
 # Layers / capas
 WALL_LAYER = 1
@@ -85,7 +89,8 @@ EFFECTS_LAYER = 4
 ITEM_LAYER = 1
 
 #items
-ITEM_IMAGES = {'health': 'health_pack.png'}
+ITEM_IMAGES = {'health': 'health_pack.png',
+                'shotgun': 'obj_shotgun.png'}
 HEALTH_PACK_AMOUNT = 20
 BOB_RANGE = 15
 BOB_SPEED = 0.4
@@ -98,4 +103,5 @@ ZOMBIE_HIT_SOUNDS = ['splat-15.wav']
 WEAPON_SOUNDS = {'pistol': ['pistol.wav'],
                 'shotgun': ['shotgun.wav']}
 EFFECTS_SOUNDS = {'level_start': 'level_start.wav',
-                  'health_up': 'health_pack.wav'}
+                  'health_up': 'health_pack.wav',
+                  'gun_pickup': 'gun_pickup.wav'}
